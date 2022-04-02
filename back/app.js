@@ -22,6 +22,14 @@ dotenv.config();
 
 app.use(cors());
 app.use('/images',express.static('images'));
+
+app.get('/api/get-image-list',(req, res)=>{
+    const fs = require('fs');
+    fs.readdir('./images', (err, files) =>{
+        return res.json({success : true, files : files});
+    })
+});
+
 app.post('/api/image-upload/',async (req, res) =>{
     await upload(req, res, (err)=>{
         if(err){
