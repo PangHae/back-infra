@@ -1,7 +1,8 @@
 import {React, useEffect, useState} from 'react';
-import FormData from 'form-data';
+//import FormData from 'form-data';
 import axios from 'axios';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
+import { DragNDrop } from './components';
 
 const App = () =>{
   const [imagePath, setImagePath] = useState('');
@@ -20,34 +21,34 @@ const App = () =>{
       });
   }, [imagePath]);
 
-  const handleChange = (e) =>{
-    if(e.target.files){
-      const formData = new FormData();
-      formData.append('files', e.target.files[0]);
-      axios({
-        method:'post',
-        url:'http://localhost:5001/api/image-upload/',
-        data: formData,
-        headers:{
-          'Content-Type': 'multipart/form-data',
-        }
-      })
-      .then((res)=>{
-        console.log('image send Success!');
-        console.log(res);
-        if(res.data.success){
-          setImagePath(res.data.filePath);
-        }
-      })
-      .catch((err) =>{
-        console.log('image send Failed!')
-        console.log(`err : ${err}`);
-      });
-    }
-  }
+  // const handleChange = (e) =>{
+  //   if(e.target.files){
+  //     const formData = new FormData();
+  //     formData.append('files', e.target.files[0]);
+  //     axios({
+  //       method:'post',
+  //       url:'http://localhost:5001/api/image-upload/',
+  //       data: formData,
+  //       headers:{
+  //         'Content-Type': 'multipart/form-data',
+  //       }
+  //     })
+  //     .then((res)=>{
+  //       console.log('image send Success!');
+  //       console.log(res);
+  //       if(res.data.success){
+  //         setImagePath(res.data.filePath);
+  //       }
+  //     })
+  //     .catch((err) =>{
+  //       console.log('image send Failed!')
+  //       console.log(`err : ${err}`);
+  //     });
+  //   }
+  // }
+  // input tag 방식이 아닌 드래그 드롭 방식으로 변경하면서 주석 처리
 
   useEffect(()=>{
-    console.log(imageList);
   },[imageList]);
 
   const handleOnDragEnd = (result) =>{
@@ -71,8 +72,6 @@ const App = () =>{
           >
             {
               imageList.map((imageName, id, index) =>{
-                console.log(`id : ${id}`);
-                console.log(`imageName : ${imageName}`);
                   return (
                   <Draggable key={id} draggableId={`${id}`} index={id}>
                     {
@@ -103,10 +102,12 @@ const App = () =>{
   return(
     <>
       {showImageList}
-      <div>
+      {/* <div>
         <input type='file' name='file' accept='image/*' onChange={handleChange}/>
-      </div>
-        
+      </div> */}
+      <DragNDrop
+        onChangeImagePath={setImagePath}
+      />
     </>
   );
 };
