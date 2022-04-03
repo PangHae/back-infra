@@ -47,7 +47,7 @@ const App = () =>{
   }
 
   useEffect(()=>{
-
+    console.log(imageList);
   },[imageList]);
 
   const handleOnDragEnd = (result) =>{
@@ -71,10 +71,10 @@ const App = () =>{
           >
             {
               imageList.map((imageName, id, index) =>{
-                console.log(index[id]);
-                console.log(id)
+                console.log(`id : ${id}`);
+                console.log(`imageName : ${imageName}`);
                   return (
-                  <Draggable key={index[id]} draggableId={`${id}`} index={id}>
+                  <Draggable key={id} draggableId={`${id}`} index={id}>
                     {
                       (provided) =>(
                         <img
